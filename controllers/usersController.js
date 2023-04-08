@@ -50,7 +50,6 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // BONUS: remove a user's associated thoughts when deleted
 
   // add a new friend to friends list
   addFriend(req, res) {
