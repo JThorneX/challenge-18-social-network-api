@@ -1,11 +1,16 @@
-const { Thought, User, Reaction } = require("../models");
+const { Thought, User } = require("../models");
 
 module.exports = {
   // all thoughts
   getAllThoughts(req, res) {
     Thought.find()
-      .then(async (thoughts) => res.json(thoughts))
-      .catch((err) => res.status(500).json(err));
+      .then(async (thoughts) => {
+        return res.json(thoughts);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
   // one thought by id
   getOneThought(req, res) {
@@ -42,20 +47,20 @@ module.exports = {
       { $set: { thoughtText: req.body.thoughtText } },
       { runValidators: true, new: true }
     )
-      .then((Thought) =>
-        !Thought
+      .then((thought) =>
+        !thought
           ? res
               .status(404)
               .res.json({ message: "No Thought with this ID found" })
-          : res.json(Thought)
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
   // delete thought by id
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
-      .then((Thought) =>
-        !Thought
+      .then((thought) =>
+        !thought
           ? res
               .status(404)
               .res.json({ message: "NO Thought with that ID Found" })
@@ -70,10 +75,10 @@ module.exports = {
       { $addToSet: { reactions: req.body } },
       { runValidators: true, new: true }
     )
-      .then((Thought) =>
-        !Thought
+      .then((thought) =>
+        !thought
           ? res.status(404).json({ message: "No Thought with that ID Found" })
-          : res.json(Thought)
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },

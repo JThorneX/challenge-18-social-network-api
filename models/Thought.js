@@ -1,5 +1,4 @@
 const { Schema, Types, model } = require("mongoose");
-const moment = require("moment");
 
 // subdocument schema
 const reactionSchema = new Schema(
@@ -13,7 +12,7 @@ const reactionSchema = new Schema(
       required: true,
       maxLength: 280,
     },
-    username: {
+    user: {
       type: String,
       required: true,
     },
@@ -21,7 +20,9 @@ const reactionSchema = new Schema(
       type: Date,
       default: Date.now,
       // format the timestamp on the query
-      get: (currentDate) => moment(currentDate).format("MMM DD, YYYY hh:mm a"),
+      get: (date) => {
+        if (date) return date.toString().split("G")[0];
+      },
     },
   },
   {
@@ -36,7 +37,7 @@ const reactionSchema = new Schema(
 // create Thought model
 const thoughtSchema = new Schema(
   {
-    thoughtText: {
+    thought: {
       type: String,
       required: true,
       minLength: 1,
@@ -46,9 +47,11 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now,
       // format the timestamp on the query
-      get: (currentDate) => moment(currentDate).format("MMM DD, YYYY hh:mm a"),
+      get: (date) => {
+        if (date) return date.toString().split("G")[0];
+      },
     },
-    username: {
+    user: {
       type: String,
       required: true,
     },

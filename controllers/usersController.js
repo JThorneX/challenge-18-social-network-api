@@ -10,6 +10,7 @@ module.exports = {
   // single user by its id and populate data
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
+      .select("-__v")
       .then((User) =>
         !User
           ? res.status(404).json({ message: "No User with that ID Found." })
@@ -42,7 +43,7 @@ module.exports = {
   },
   // remove user by its id
   deleteUser({ params }, res) {
-    User.findOneAndDelete({ _id: params.userId })
+    User.findOneAndRemove({ _id: params.userId })
       .then((User) =>
         !User
           ? res.status(404).json({ message: "No User with this ID Found." })
