@@ -4,24 +4,24 @@ module.exports = {
   // all users
   getAllUsers(req, res) {
     User.find()
-      .then((Users) => res.json(Users))
+      .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
   // single user by its id and populate data
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select("-__v")
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: "No User with that ID Found." })
-          : res.json(User)
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
   // new user
   createUser(req, res) {
     User.create(req.body)
-      .then((User) => res.json(User))
+      .then((user) => res.json(user))
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
@@ -34,18 +34,18 @@ module.exports = {
       { $set: body },
       { runValidators: true, new: true }
     )
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(400).json({ message: "No User with this ID Found." })
-          : res.json(User)
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
   // remove user by its id
   deleteUser({ params }, res) {
     User.findOneAndRemove({ _id: params.userId })
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: "No User with this ID Found." })
           : res.json({ message: "User has been deleted." })
       )
@@ -59,10 +59,10 @@ module.exports = {
       { $addToSet: { friends: req.body } },
       { runValidators: true, new: true }
     )
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: "No User with this ID Found." })
-          : res.json(User)
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -74,10 +74,10 @@ module.exports = {
       { $pull: { friends: { friendId: req.params._id } } },
       { runValidators: true, new: true }
     )
-      .then((User) =>
-        !User
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: "No User with this ID Found." })
-          : res.json(User)
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },

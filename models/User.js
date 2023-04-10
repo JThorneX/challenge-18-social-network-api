@@ -16,7 +16,7 @@ const userSchema = new Schema(
       match: [/^.+@[^\.].*\.[a-z]{2,}$/, "Valid Email Address is Required."],
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
-    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    friends: [this],
   },
   {
     toJSON: {
